@@ -1,0 +1,103 @@
+---
+layout: base.njk
+---
+
+<!-- JSON-LD Structured Data for Book -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Book",
+  "name": "{{ title }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ author }}"
+  },
+  "image": "{{ cover }}"{% if description %},
+  "description": "{{ description }}"{% endif %}{% if tags and tags.length > 0 %},
+  "genre": [{% for tag in tags %}"{{ tag }}"{% if not loop.last %}, {% endif %}{% endfor %}]{% endif %}
+}
+</script>
+
+<div class="detail-container">
+  <!-- Breadcrumb Navigation -->
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Trang chủ</a>
+    <span class="breadcrumb-separator">›</span>
+    <span class="text-light-text dark:text-dark-text">{{ title }}</span>
+  </nav>
+
+  <!-- Detail Header -->
+  <div class="detail-header">
+    <!-- Cover Image -->
+    <div class="detail-cover">
+      <img 
+        src="{{ cover }}" 
+        alt="Bìa sách {{ title }}"
+        class="w-full rounded-lg shadow-lg"
+      >
+    </div>
+
+    <!-- Book Info -->
+    <div class="detail-info">
+      <h1 class="detail-title">{{ title }}</h1>
+      <p class="detail-author">{{ author }}</p>
+      
+      {% if description %}
+      <p class="text-light-secondary dark:text-dark-secondary mb-4">{{ description }}</p>
+      {% endif %}
+
+      <!-- Tags -->
+      {% if tags and tags.length > 0 %}
+      <div class="detail-tags">
+        {% for tag in tags %}
+        <span class="tag">{{ tag }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- Action Buttons -->
+      <div class="detail-actions">
+        <a href="/" class="btn btn-secondary">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          Quay lại
+        </a>
+        
+        <button 
+          id="download-btn" 
+          class="btn btn-primary"
+          data-download-links="{{ downloadLinks | jsonify | escape }}"
+        >
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+          </svg>
+          Tải xuống
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Book Content -->
+  <div class="detail-content">
+    {{ content | safe }}
+  </div>
+</div>
+
+<!-- Download Manager Script -->
+<script src="/js/download.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const downloadBtn = document.getElementById('download-btn');
+    if (downloadBtn && window.DownloadManager) {
+      const linksData = downloadBtn.getAttribute('data-download-links');
+      try {
+        const links = JSON.parse(linksData);
+        const downloadManager = new DownloadManager();
+        downloadManager.init(links);
+      } catch (e) {
+        console.error('Failed to initialize download manager:', e);
+      }
+    }
+  });
+</script>

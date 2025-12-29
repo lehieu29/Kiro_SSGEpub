@@ -1,0 +1,304 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom base styles */
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-light-bg text-light-text transition-colors duration-200;
+  }
+  
+  .dark body {
+    @apply bg-dark-bg text-dark-text;
+  }
+  
+  /* Ensure minimum touch target size for accessibility */
+  button, a, input[type="submit"], input[type="button"] {
+    @apply min-h-[44px];
+  }
+}
+
+/* Custom component styles */
+@layer components {
+  /* Card Component */
+  .card {
+    @apply bg-light-card border border-light-border rounded-lg overflow-hidden transition-all duration-200;
+  }
+  
+  .dark .card {
+    @apply bg-dark-card border-dark-border;
+  }
+  
+  .card:hover {
+    @apply shadow-lg transform -translate-y-1;
+  }
+  
+  /* Book Card Specific */
+  .book-card {
+    @apply card relative cursor-pointer;
+  }
+  
+  .book-card-image {
+    @apply w-full aspect-[3/4] object-cover;
+  }
+  
+  .book-card-overlay {
+    @apply absolute inset-0 bg-black/70 opacity-0 hover:opacity-100 transition-opacity duration-200 flex items-center justify-center p-4;
+  }
+  
+  .book-card-overlay p {
+    @apply text-white text-sm text-center line-clamp-4;
+  }
+  
+  .book-card-content {
+    @apply p-4;
+  }
+  
+  .book-card-title {
+    @apply font-semibold text-light-text dark:text-dark-text line-clamp-2 mb-1;
+  }
+  
+  .book-card-author {
+    @apply text-sm text-light-secondary dark:text-dark-secondary;
+  }
+  
+  /* Button Components */
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-colors duration-200 min-h-[44px] inline-flex items-center justify-center;
+  }
+  
+  .btn-primary {
+    @apply bg-light-primary text-white hover:bg-blue-600;
+  }
+  
+  .dark .btn-primary {
+    @apply bg-dark-primary hover:bg-blue-500;
+  }
+  
+  .btn-secondary {
+    @apply bg-light-card text-light-text border border-light-border hover:bg-gray-100;
+  }
+  
+  .dark .btn-secondary {
+    @apply bg-dark-card text-dark-text border-dark-border hover:bg-gray-700;
+  }
+  
+  .btn-outline {
+    @apply bg-transparent border-2 border-light-primary text-light-primary hover:bg-light-primary hover:text-white;
+  }
+  
+  .dark .btn-outline {
+    @apply border-dark-primary text-dark-primary hover:bg-dark-primary hover:text-white;
+  }
+  
+  /* Grid Layouts */
+  .book-grid {
+    @apply grid gap-6;
+    /* Mobile: 1 column */
+    @apply grid-cols-1;
+    /* Tablet (640px+): 2 columns */
+    @apply sm:grid-cols-2;
+    /* Desktop (1024px+): 3-4 columns */
+    @apply lg:grid-cols-3 xl:grid-cols-4;
+  }
+  
+  /* Header Styles */
+  .header {
+    @apply sticky top-0 z-50 bg-light-bg dark:bg-dark-bg border-b border-light-border dark:border-dark-border;
+  }
+  
+  .header-container {
+    @apply container mx-auto px-4;
+  }
+  
+  .header-content {
+    @apply flex items-center justify-between h-16;
+  }
+  
+  /* Search Input */
+  .search-input {
+    @apply w-full px-4 py-2 pl-10 rounded-lg border border-light-border dark:border-dark-border bg-light-card dark:bg-dark-card text-light-text dark:text-dark-text placeholder-light-secondary dark:placeholder-dark-secondary focus:outline-none focus:ring-2 focus:ring-light-primary dark:focus:ring-dark-primary transition-colors;
+  }
+  
+  .search-results {
+    @apply absolute top-full left-0 right-0 mt-1 bg-light-card dark:bg-dark-card border border-light-border dark:border-dark-border rounded-lg shadow-lg z-50;
+  }
+  
+  .search-result-item {
+    @apply px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer border-b border-light-border dark:border-dark-border last:border-b-0 transition-colors;
+  }
+  
+  .search-result-title {
+    @apply font-medium text-light-text dark:text-dark-text;
+  }
+  
+  .search-result-author {
+    @apply text-sm text-light-secondary dark:text-dark-secondary;
+  }
+  
+  /* Breadcrumb */
+  .breadcrumb {
+    @apply flex items-center space-x-2 text-sm text-light-secondary dark:text-dark-secondary mb-6;
+  }
+  
+  .breadcrumb a {
+    @apply hover:text-light-primary dark:hover:text-dark-primary transition-colors;
+  }
+  
+  .breadcrumb-separator {
+    @apply text-light-border dark:text-dark-border;
+  }
+  
+  /* Tags */
+  .tag {
+    @apply inline-block px-3 py-1 text-sm rounded-full bg-light-card dark:bg-dark-card border border-light-border dark:border-dark-border text-light-secondary dark:text-dark-secondary;
+  }
+  
+  /* Pagination */
+  .pagination {
+    @apply flex items-center justify-center space-x-2 mt-8;
+  }
+  
+  .pagination-item {
+    @apply px-4 py-2 rounded-lg border border-light-border dark:border-dark-border text-light-text dark:text-dark-text hover:bg-light-card dark:hover:bg-dark-card transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center;
+  }
+  
+  .pagination-item.active {
+    @apply bg-light-primary dark:bg-dark-primary text-white border-transparent;
+  }
+  
+  .pagination-item:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+  
+  /* Detail Page */
+  .detail-container {
+    @apply max-w-4xl mx-auto;
+  }
+  
+  .detail-header {
+    @apply flex flex-col md:flex-row gap-8 mb-8;
+  }
+  
+  .detail-cover {
+    @apply w-full md:w-64 flex-shrink-0;
+  }
+  
+  .detail-cover img {
+    @apply w-full rounded-lg shadow-lg;
+  }
+  
+  .detail-info {
+    @apply flex-1;
+  }
+  
+  .detail-title {
+    @apply text-2xl md:text-3xl font-bold text-light-text dark:text-dark-text mb-2;
+  }
+  
+  .detail-author {
+    @apply text-lg text-light-secondary dark:text-dark-secondary mb-4;
+  }
+  
+  .detail-tags {
+    @apply flex flex-wrap gap-2 mb-6;
+  }
+  
+  .detail-actions {
+    @apply flex flex-wrap gap-4;
+  }
+  
+  .detail-content {
+    @apply max-w-none text-light-text dark:text-dark-text;
+  }
+  
+  .detail-content h1,
+  .detail-content h2,
+  .detail-content h3 {
+    @apply font-bold text-light-text dark:text-dark-text mt-6 mb-4;
+  }
+  
+  .detail-content h1 {
+    @apply text-2xl;
+  }
+  
+  .detail-content h2 {
+    @apply text-xl;
+  }
+  
+  .detail-content h3 {
+    @apply text-lg;
+  }
+  
+  .detail-content p {
+    @apply mb-4 leading-relaxed;
+  }
+  
+  .detail-content ul,
+  .detail-content ol {
+    @apply mb-4 pl-6;
+  }
+  
+  .detail-content li {
+    @apply mb-2;
+  }
+  
+  .detail-content a {
+    @apply text-light-primary dark:text-dark-primary underline;
+  }
+  
+  /* 404 Page */
+  .error-page {
+    @apply flex flex-col items-center justify-center min-h-[60vh] text-center;
+  }
+  
+  .error-code {
+    @apply text-6xl md:text-8xl font-bold text-light-primary dark:text-dark-primary mb-4;
+  }
+  
+  .error-message {
+    @apply text-xl md:text-2xl text-light-text dark:text-dark-text mb-2;
+  }
+  
+  .error-description {
+    @apply text-light-secondary dark:text-dark-secondary mb-8;
+  }
+}
+
+/* Utility classes */
+@layer utilities {
+  /* Line clamp utilities */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  /* Aspect ratio for book covers */
+  .aspect-book {
+    aspect-ratio: 3 / 4;
+  }
+  
+  /* Loading state */
+  .loading {
+    @apply opacity-50 pointer-events-none;
+  }
+  
+  /* Skeleton loading */
+  .skeleton {
+    @apply bg-gray-200 dark:bg-gray-700 animate-pulse rounded;
+  }
+}

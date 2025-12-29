@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi" class="{% if theme %}{{ theme }}{% endif %}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>{% if title %}{{ title }} | {% endif %}{{ site.name }}</title>
+  <meta name="description" content="{{ description | default(site.description) }}">
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="{{ title | default(site.name) }}">
+  <meta property="og:description" content="{{ description | default(site.description) }}">
+  <meta property="og:type" content="{% if layout == 'detail.njk' %}book{% else %}website{% endif %}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  {% if cover %}
+  <meta property="og:image" content="{{ cover }}">
+  {% endif %}
+  
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ title | default(site.name) }}">
+  <meta name="twitter:description" content="{{ description | default(site.description) }}">
+  {% if cover %}
+  <meta name="twitter:image" content="{{ cover }}">
+  {% endif %}
+  
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Load Inter Font with font-display: swap -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'light-bg': '#ffffff',
+            'light-text': '#1f2937',
+            'light-secondary': '#6b7280',
+            'light-card': '#f9fafb',
+            'light-border': '#e5e7eb',
+            'light-primary': '#3b82f6',
+            'dark-bg': '#111827',
+            'dark-text': '#f9fafb',
+            'dark-secondary': '#9ca3af',
+            'dark-card': '#1f2937',
+            'dark-border': '#374151',
+            'dark-primary': '#60a5fa'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    /* Inline styles for SVG icons to prevent giant icons when CSS fails */
+    svg { width: 1.25rem; height: 1.25rem; }
+    .book-card-image { width: 100%; aspect-ratio: 3/4; object-fit: cover; }
+    .book-card-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); opacity: 0; transition: opacity 0.2s; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+    .book-card:hover .book-card-overlay { opacity: 1; }
+    .book-card-overlay p { color: white; font-size: 0.875rem; text-align: center; }
+    .book-grid { display: grid; gap: 1.5rem; grid-template-columns: repeat(1, 1fr); }
+    @media (min-width: 640px) { .book-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .book-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 1280px) { .book-grid { grid-template-columns: repeat(4, 1fr); } }
+    /* Detail page styles */
+    .detail-header { display: flex; flex-direction: column; gap: 2rem; margin-bottom: 2rem; }
+    @media (min-width: 768px) { .detail-header { flex-direction: row; } }
+    .detail-cover { width: 100%; flex-shrink: 0; }
+    @media (min-width: 768px) { .detail-cover { width: 16rem; } }
+    .detail-cover img { width: 100%; border-radius: 0.5rem; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+    .detail-info { flex: 1; }
+    .detail-title { font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem; }
+    @media (min-width: 768px) { .detail-title { font-size: 1.875rem; } }
+    .detail-author { font-size: 1.125rem; color: #6b7280; margin-bottom: 1rem; }
+    .detail-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .tag { display: inline-block; padding: 0.25rem 0.75rem; font-size: 0.875rem; border-radius: 9999px; background: #f3f4f6; border: 1px solid #e5e7eb; }
+    .detail-actions { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 500; min-height: 44px; transition: all 0.2s; }
+    .btn-primary { background: #3b82f6; color: white; }
+    .btn-primary:hover { background: #2563eb; }
+    .btn-secondary { background: #f9fafb; border: 1px solid #e5e7eb; }
+    .btn-secondary:hover { background: #f3f4f6; }
+    .detail-content { max-width: none; line-height: 1.75; }
+    .detail-content h1, .detail-content h2, .detail-content h3 { font-weight: bold; margin-top: 1.5rem; margin-bottom: 1rem; }
+    .detail-content h1 { font-size: 1.5rem; }
+    .detail-content h2 { font-size: 1.25rem; }
+    .detail-content h3 { font-size: 1.125rem; }
+    .detail-content p { margin-bottom: 1rem; }
+    .detail-content ul, .detail-content ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+    .detail-content li { margin-bottom: 0.5rem; }
+    .detail-content blockquote { border-left: 4px solid #e5e7eb; padding-left: 1rem; font-style: italic; color: #6b7280; }
+    .detail-content pre { background: #1f2937; color: #f9fafb; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 1rem; }
+    .detail-content code { font-family: monospace; }
+    .breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: #6b7280; margin-bottom: 1.5rem; }
+    .breadcrumb a { color: #3b82f6; }
+    .breadcrumb a:hover { text-decoration: underline; }
+  </style>
+  
+  <!-- Theme initialization script (prevent flash) -->
+  <script>
+    (function() {
+      const theme = localStorage.getItem('ssgepub_theme') || 
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.classList.toggle('dark', theme === 'dark');
+    })();
+  </script>
+</head>
+<body class="min-h-screen flex flex-col">
+  {% include "header.njk" %}
+  
+  <main class="flex-1 container mx-auto px-4 py-6">
+    {{ content | safe }}
+  </main>
+  
+  <footer class="border-t border-light-border dark:border-dark-border py-6">
+    <div class="container mx-auto px-4 text-center text-light-secondary dark:text-dark-secondary">
+      <p>&copy; {{ site.name }} - Static Site Generator cho Sách/Truyện</p>
+    </div>
+  </footer>
+  
+  <!-- JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/search.js"></script>
+  <script src="/js/lazyload.js"></script>
+</body>
+</html>

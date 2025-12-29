@@ -1,0 +1,10 @@
+{
+  "name": "SSGEpub",
+  "description": "Static Site Generator cho Sách/Truyện",
+  "url": "https://username.github.io/SSGEpub",
+  "language": "vi",
+  "pagination": {
+    "size": 12
+  },
+  "cloudflareApiUrl": "https://your-worker.workers.dev/api/get-link-platform"
+}

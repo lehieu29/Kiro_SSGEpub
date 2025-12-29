@@ -1,0 +1,25 @@
+{# Book Card Component #}
+{# Expects: book variable with data.title, data.author, data.cover, data.description #}
+<a href="/books/{{ book.fileSlug }}/" class="book-card block">
+  <!-- Cover Image with Lazy Loading -->
+  <div class="relative">
+    <img 
+      data-src="{{ book.data.cover }}" 
+      alt="Bìa sách {{ book.data.title }}"
+      class="book-card-image bg-gray-200 dark:bg-gray-700"
+      loading="lazy"
+    >
+    <!-- Hover Overlay with Description -->
+    {% if book.data.description %}
+    <div class="book-card-overlay">
+      <p>{{ book.data.description }}</p>
+    </div>
+    {% endif %}
+  </div>
+  
+  <!-- Card Content -->
+  <div class="book-card-content">
+    <h2 class="book-card-title">{{ book.data.title }}</h2>
+    <p class="book-card-author">{{ book.data.author }}</p>
+  </div>
+</a>

@@ -1,0 +1,125 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Build output
+_site/
+dist/
+.cache/
+
+# Eleventy cache
+.eleventy-cache/
+.eleventy.js.cache
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Debug
+debug.log
+npm-debug.log
+yarn-debug.log
+
+# Coverage directory
+coverage/
+.nyc_output/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Optional stylelint cache
+.stylelintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional Tailwind CSS JIT cache
+.tailwindcss-cache/
+
+# Parcel cache
+.parcel-cache/
+
+# Next.js (nếu sau này dùng)
+.next/
+out/
+
+# Nuxt.js (nếu sau này dùng)
+.nuxt/
+
+# Gatsby files (nếu sau này dùng)
+.cache/
+public/
+
+# Serverless directories
+.serverless/
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# Backup files
+*.bak
+*.backup
+
+# Test files (nếu có)
+test-results/
+*.test.js.snap
+
+# GitHub Actions artifacts (local testing)
+.github/workflows/*.log

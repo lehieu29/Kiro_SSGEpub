@@ -1,0 +1,72 @@
+---
+layout: base.njk
+title: Trang chủ
+description: Khám phá bộ sưu tập sách và truyện
+pagination:
+  data: collections.books
+  size: 12
+  alias: books
+  generatePageOnEmptyData: true
+permalink: "{% if pagination.pageNumber == 0 %}/index.html{% else %}/page/{{ pagination.pageNumber + 1 }}/index.html{% endif %}"
+---
+
+<div class="mb-6">
+  <h1 class="text-2xl md:text-3xl font-bold text-light-text dark:text-dark-text mb-2">
+    Danh sách sách
+  </h1>
+  <p class="text-light-secondary dark:text-dark-secondary">
+    Khám phá {{ collections.books.length }} cuốn sách trong bộ sưu tập
+  </p>
+</div>
+
+<!-- Book Grid -->
+<div class="book-grid">
+  {% for book in books %}
+    {% include "partials/book-card.njk" %}
+  {% endfor %}
+</div>
+
+<!-- Pagination -->
+{% if pagination.pages.length > 1 %}
+<nav class="pagination" aria-label="Phân trang">
+  <!-- Previous Button -->
+  {% if pagination.href.previous %}
+    <a href="{{ pagination.href.previous }}" class="pagination-item" aria-label="Trang trước">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+    </a>
+  {% else %}
+    <span class="pagination-item opacity-50 cursor-not-allowed" aria-disabled="true">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+    </span>
+  {% endif %}
+
+  <!-- Page Numbers -->
+  {% for pageEntry in pagination.pages %}
+    {% set pageNumber = loop.index0 %}
+    {% if pageNumber == pagination.pageNumber %}
+      <span class="pagination-item active" aria-current="page">{{ loop.index }}</span>
+    {% else %}
+      <a href="{{ pagination.hrefs[pageNumber] }}" class="pagination-item">{{ loop.index }}</a>
+    {% endif %}
+  {% endfor %}
+
+  <!-- Next Button -->
+  {% if pagination.href.next %}
+    <a href="{{ pagination.href.next }}" class="pagination-item" aria-label="Trang sau">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+      </svg>
+    </a>
+  {% else %}
+    <span class="pagination-item opacity-50 cursor-not-allowed" aria-disabled="true">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+      </svg>
+    </span>
+  {% endif %}
+</nav>
+{% endif %}

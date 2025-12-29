@@ -1,0 +1,161 @@
+---
+layout: base.njk
+title: Tìm kiếm
+description: Tìm kiếm sách và truyện
+permalink: /search.html
+---
+
+<div class="mb-6">
+  <h1 class="text-2xl md:text-3xl font-bold text-light-text dark:text-dark-text mb-4">
+    Tìm kiếm
+  </h1>
+  
+  <!-- Search Form -->
+  <form id="search-page-form" class="mb-6">
+    <div class="relative max-w-xl">
+      <input 
+        type="text" 
+        id="search-page-input"
+        placeholder="Nhập từ khóa tìm kiếm..." 
+        class="w-full px-4 py-3 pl-12 rounded-lg border border-light-border dark:border-dark-border bg-light-card dark:bg-dark-card text-light-text dark:text-dark-text placeholder-light-secondary dark:placeholder-dark-secondary focus:outline-none focus:ring-2 focus:ring-light-primary dark:focus:ring-dark-primary transition-colors"
+        autocomplete="off"
+      >
+      <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-light-secondary dark:text-dark-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+    </div>
+  </form>
+</div>
+
+<!-- Search Results Container -->
+<div id="search-page-results">
+  <p class="text-light-secondary dark:text-dark-secondary" id="search-initial-message">
+    Nhập từ khóa để tìm kiếm sách...
+  </p>
+</div>
+
+<!-- Search Page Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('search-page-input');
+  const resultsContainer = document.getElementById('search-page-results');
+  const initialMessage = document.getElementById('search-initial-message');
+  let searchIndex = [];
+  let fuse = null;
+  
+  // Load search index
+  fetch('/search-index.json')
+    .then(response => response.json())
+    .then(data => {
+      searchIndex = data;
+      if (typeof Fuse !== 'undefined') {
+        fuse = new Fuse(searchIndex, {
+          keys: ['title', 'author', 'description', 'tags'],
+          threshold: 0.4,
+          includeScore: true,
+          minMatchCharLength: 2
+        });
+      }
+      
+      // Check for query parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const query = urlParams.get('q');
+      if (query) {
+        searchInput.value = query;
+        performSearch(query);
+      }
+    })
+    .catch(error => {
+      console.error('Failed to load search index:', error);
+      resultsContainer.innerHTML = '<p class="text-red-500">Không thể tải dữ liệu tìm kiếm</p>';
+    });
+  
+  // Handle input
+  searchInput.addEventListener('input', function(e) {
+    const query = e.target.value.trim();
+    if (query.length >= 2) {
+      performSearch(query);
+      // Update URL without reload
+      const newUrl = new URL(window.location);
+      newUrl.searchParams.set('q', query);
+      window.history.replaceState({}, '', newUrl);
+    } else {
+      resultsContainer.innerHTML = '<p class="text-light-secondary dark:text-dark-secondary">Nhập ít nhất 2 ký tự để tìm kiếm...</p>';
+    }
+  });
+  
+  function performSearch(query) {
+    let results = [];
+    
+    if (fuse) {
+      results = fuse.search(query);
+    } else {
+      // Fallback search
+      const lowerQuery = query.toLowerCase();
+      results = searchIndex
+        .filter(item => {
+          return item.title?.toLowerCase().includes(lowerQuery) ||
+                 item.author?.toLowerCase().includes(lowerQuery) ||
+                 item.description?.toLowerCase().includes(lowerQuery) ||
+                 item.tags?.some(tag => tag.toLowerCase().includes(lowerQuery));
+        })
+        .map(item => ({ item, score: 0.5 }));
+    }
+    
+    renderResults(results, query);
+  }
+  
+  function renderResults(results, query) {
+    if (results.length === 0) {
+      resultsContainer.innerHTML = `
+        <div class="text-center py-8">
+          <svg class="w-16 h-16 mx-auto text-light-secondary dark:text-dark-secondary mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <p class="text-light-secondary dark:text-dark-secondary text-lg">Không tìm thấy kết quả cho "${escapeHtml(query)}"</p>
+          <p class="text-light-secondary dark:text-dark-secondary mt-2">Thử tìm kiếm với từ khóa khác</p>
+        </div>
+      `;
+      return;
+    }
+    
+    const html = `
+      <p class="text-light-secondary dark:text-dark-secondary mb-4">
+        Tìm thấy ${results.length} kết quả cho "${escapeHtml(query)}"
+      </p>
+      <div class="book-grid">
+        ${results.map(result => renderBookCard(result.item)).join('')}
+      </div>
+    `;
+    
+    resultsContainer.innerHTML = html;
+  }
+  
+  function renderBookCard(book) {
+    return `
+      <a href="${book.url}" class="book-card block bg-light-card dark:bg-dark-card rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
+        <div class="p-4">
+          <h2 class="font-semibold text-light-text dark:text-dark-text mb-1 line-clamp-2">${escapeHtml(book.title)}</h2>
+          <p class="text-sm text-light-secondary dark:text-dark-secondary mb-2">${escapeHtml(book.author)}</p>
+          ${book.description ? `<p class="text-sm text-light-secondary dark:text-dark-secondary line-clamp-2">${escapeHtml(book.description)}</p>` : ''}
+          ${book.tags && book.tags.length > 0 ? `
+            <div class="flex flex-wrap gap-1 mt-2">
+              ${book.tags.slice(0, 3).map(tag => `<span class="text-xs px-2 py-1 bg-light-bg dark:bg-dark-bg rounded-full text-light-secondary dark:text-dark-secondary">${escapeHtml(tag)}</span>`).join('')}
+            </div>
+          ` : ''}
+        </div>
+      </a>
+    `;
+  }
+  
+  function escapeHtml(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+});
+</script>
+
+<!-- Load Fuse.js from CDN for search page -->
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
