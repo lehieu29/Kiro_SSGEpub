@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="vi" class="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>Chuyện Nhà Alchemist | SSGEpub</title>
+  <meta name="description" content="Câu chuyện về hành trình tìm kiếm kho báu của chàng chăn cừu Santiago, một cuộc phiêu lưu đầy triết lý về ước mơ và định mệnh.">
+  <link rel="canonical" href="https://username.github.io/SSGEpub/books/chuyen-nha-alchemist/">
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Chuyện Nhà Alchemist">
+  <meta property="og:description" content="Câu chuyện về hành trình tìm kiếm kho báu của chàng chăn cừu Santiago, một cuộc phiêu lưu đầy triết lý về ước mơ và định mệnh.">
+  <meta property="og:type" content="book">
+  <meta property="og:url" content="https://username.github.io/SSGEpub/books/chuyen-nha-alchemist/">
+  
+  <meta property="og:image" content="https://via.placeholder.com/300x400/10b981/ffffff?text=Alchemist">
+  
+  
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Chuyện Nhà Alchemist">
+  <meta name="twitter:description" content="Câu chuyện về hành trình tìm kiếm kho báu của chàng chăn cừu Santiago, một cuộc phiêu lưu đầy triết lý về ước mơ và định mệnh.">
+  
+  <meta name="twitter:image" content="https://via.placeholder.com/300x400/10b981/ffffff?text=Alchemist">
+  
+  
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Load Inter Font with font-display: swap -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'light-bg': '#ffffff',
+            'light-text': '#1f2937',
+            'light-secondary': '#6b7280',
+            'light-card': '#f9fafb',
+            'light-border': '#e5e7eb',
+            'light-primary': '#3b82f6',
+            'dark-bg': '#111827',
+            'dark-text': '#f9fafb',
+            'dark-secondary': '#9ca3af',
+            'dark-card': '#1f2937',
+            'dark-border': '#374151',
+            'dark-primary': '#60a5fa'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    /* Inline styles for SVG icons to prevent giant icons when CSS fails */
+    svg { width: 1.25rem; height: 1.25rem; }
+    .book-card-image { width: 100%; aspect-ratio: 3/4; object-fit: cover; }
+    .book-card-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); opacity: 0; transition: opacity 0.2s; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+    .book-card:hover .book-card-overlay { opacity: 1; }
+    .book-card-overlay p { color: white; font-size: 0.875rem; text-align: center; }
+    .book-grid { display: grid; gap: 1.5rem; grid-template-columns: repeat(1, 1fr); }
+    @media (min-width: 640px) { .book-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .book-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 1280px) { .book-grid { grid-template-columns: repeat(4, 1fr); } }
+    /* Detail page styles */
+    .detail-header { display: flex; flex-direction: column; gap: 2rem; margin-bottom: 2rem; }
+    @media (min-width: 768px) { .detail-header { flex-direction: row; } }
+    .detail-cover { width: 100%; flex-shrink: 0; }
+    @media (min-width: 768px) { .detail-cover { width: 16rem; } }
+    .detail-cover img { width: 100%; border-radius: 0.5rem; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+    .detail-info { flex: 1; }
+    .detail-title { font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem; }
+    @media (min-width: 768px) { .detail-title { font-size: 1.875rem; } }
+    .detail-author { font-size: 1.125rem; color: #6b7280; margin-bottom: 1rem; }
+    .detail-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .tag { display: inline-block; padding: 0.25rem 0.75rem; font-size: 0.875rem; border-radius: 9999px; background: #f3f4f6; border: 1px solid #e5e7eb; }
+    .detail-actions { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 500; min-height: 44px; transition: all 0.2s; }
+    .btn-primary { background: #3b82f6; color: white; }
+    .btn-primary:hover { background: #2563eb; }
+    .btn-secondary { background: #f9fafb; border: 1px solid #e5e7eb; }
+    .btn-secondary:hover { background: #f3f4f6; }
+    .detail-content { max-width: none; line-height: 1.75; }
+    .detail-content h1, .detail-content h2, .detail-content h3 { font-weight: bold; margin-top: 1.5rem; margin-bottom: 1rem; }
+    .detail-content h1 { font-size: 1.5rem; }
+    .detail-content h2 { font-size: 1.25rem; }
+    .detail-content h3 { font-size: 1.125rem; }
+    .detail-content p { margin-bottom: 1rem; }
+    .detail-content ul, .detail-content ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+    .detail-content li { margin-bottom: 0.5rem; }
+    .detail-content blockquote { border-left: 4px solid #e5e7eb; padding-left: 1rem; font-style: italic; color: #6b7280; }
+    .detail-content pre { background: #1f2937; color: #f9fafb; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 1rem; }
+    .detail-content code { font-family: monospace; }
+    .breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: #6b7280; margin-bottom: 1.5rem; }
+    .breadcrumb a { color: #3b82f6; }
+    .breadcrumb a:hover { text-decoration: underline; }
+  </style>
+  
+  <!-- Theme initialization script (prevent flash) -->
+  <script>
+    (function() {
+      const theme = localStorage.getItem('ssgepub_theme') || 
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.classList.toggle('dark', theme === 'dark');
+    })();
+  </script>
+</head>
+<body class="min-h-screen flex flex-col">
+  <header class="sticky top-0 z-50 bg-light-bg dark:bg-dark-bg border-b border-light-border dark:border-dark-border">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo/Site Name -->
+      <a href="/" class="flex items-center space-x-2 text-xl font-bold text-light-text dark:text-dark-text hover:text-light-primary dark:hover:text-dark-primary transition-colors">
+        <span>📚</span>
+        <span>SSGEpub</span>
+      </a>
+      
+      <!-- Desktop Search Input -->
+      <div class="hidden md:flex flex-1 max-w-md mx-8">
+        <form action="/search.html" method="get" class="w-full relative" id="search-form">
+          <input 
+            type="text" 
+            name="q" 
+            placeholder="Tìm kiếm sách..." 
+            class="w-full px-4 py-2 pl-10 rounded-lg border border-light-border dark:border-dark-border bg-light-card dark:bg-dark-card text-light-text dark:text-dark-text placeholder-light-secondary dark:placeholder-dark-secondary focus:outline-none focus:ring-2 focus:ring-light-primary dark:focus:ring-dark-primary transition-colors"
+            id="search-input"
+            autocomplete="off"
+          >
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-light-secondary dark:text-dark-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          <!-- Search Results Dropdown -->
+          <div id="search-results" class="absolute top-full left-0 right-0 mt-1 bg-light-card dark:bg-dark-card border border-light-border dark:border-dark-border rounded-lg shadow-lg hidden z-50"></div>
+        </form>
+      </div>
+      
+      <!-- Right Side Actions -->
+      <div class="flex items-center space-x-2">
+        <!-- Mobile Search Icon -->
+        <button 
+          type="button" 
+          class="md:hidden p-2 rounded-lg text-light-text dark:text-dark-text hover:bg-light-card dark:hover:bg-dark-card transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+          id="mobile-search-toggle"
+          aria-label="Tìm kiếm"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </button>
+        
+        <!-- Theme Toggle Button -->
+        <button 
+          type="button" 
+          class="p-2 rounded-lg text-light-text dark:text-dark-text hover:bg-light-card dark:hover:bg-dark-card transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+          id="theme-toggle"
+          aria-label="Chuyển đổi giao diện"
+        >
+          <!-- Sun icon (shown in dark mode) -->
+          <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+          </svg>
+          <!-- Moon icon (shown in light mode) -->
+          <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Mobile Search Bar (hidden by default) -->
+    <div id="mobile-search-container" class="md:hidden pb-4 hidden">
+      <form action="/search.html" method="get" class="relative" id="mobile-search-form">
+        <input 
+          type="text" 
+          name="q" 
+          placeholder="Tìm kiếm sách..." 
+          class="w-full px-4 py-2 pl-10 rounded-lg border border-light-border dark:border-dark-border bg-light-card dark:bg-dark-card text-light-text dark:text-dark-text placeholder-light-secondary dark:placeholder-dark-secondary focus:outline-none focus:ring-2 focus:ring-light-primary dark:focus:ring-dark-primary transition-colors"
+          id="mobile-search-input"
+          autocomplete="off"
+        >
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-light-secondary dark:text-dark-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+        <!-- Mobile Search Results Dropdown -->
+        <div id="mobile-search-results" class="absolute top-full left-0 right-0 mt-1 bg-light-card dark:bg-dark-card border border-light-border dark:border-dark-border rounded-lg shadow-lg hidden z-50"></div>
+      </form>
+    </div>
+  </div>
+</header>
+
+  
+  <main class="flex-1 container mx-auto px-4 py-6">
+    
+<!-- JSON-LD Structured Data for Book -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Book",
+  "name": "Chuyện Nhà Alchemist",
+  "author": {
+    "@type": "Person",
+    "name": "Paulo Coelho"
+  },
+  "image": "https://via.placeholder.com/300x400/10b981/ffffff?text=Alchemist",
+  "description": "Câu chuyện về hành trình tìm kiếm kho báu của chàng chăn cừu Santiago, một cuộc phiêu lưu đầy triết lý về ước mơ và định mệnh.",
+  "genre": ["Tiểu thuyết", "Triết học", "Phiêu lưu", "Tâm linh"]
+}
+</script>
+
+<div class="detail-container">
+  <!-- Breadcrumb Navigation -->
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Trang chủ</a>
+    <span class="breadcrumb-separator">›</span>
+    <span class="text-light-text dark:text-dark-text">Chuyện Nhà Alchemist</span>
+  </nav>
+
+  <!-- Detail Header -->
+  <div class="detail-header">
+    <!-- Cover Image -->
+    <div class="detail-cover">
+      <img 
+        src="https://via.placeholder.com/300x400/10b981/ffffff?text=Alchemist" 
+        alt="Bìa sách Chuyện Nhà Alchemist"
+        class="w-full rounded-lg shadow-lg"
+      >
+    </div>
+
+    <!-- Book Info -->
+    <div class="detail-info">
+      <h1 class="detail-title">Chuyện Nhà Alchemist</h1>
+      <p class="detail-author">Paulo Coelho</p>
+      
+      
+      <p class="text-light-secondary dark:text-dark-secondary mb-4">Câu chuyện về hành trình tìm kiếm kho báu của chàng chăn cừu Santiago, một cuộc phiêu lưu đầy triết lý về ước mơ và định mệnh.</p>
+      
+
+      <!-- Tags -->
+      
+      <div class="detail-tags">
+        
+        <span class="tag">Tiểu thuyết</span>
+        
+        <span class="tag">Triết học</span>
+        
+        <span class="tag">Phiêu lưu</span>
+        
+        <span class="tag">Tâm linh</span>
+        
+      </div>
+      
+
+      <!-- Action Buttons -->
+      <div class="detail-actions">
+        <a href="/" class="btn btn-secondary">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          Quay lại
+        </a>
+        
+        <button 
+          id="download-btn" 
+          class="btn btn-primary"
+          data-download-links="[{&quot;url&quot;:&quot;https://example.com/download/alchemist-yeumoney&quot;,&quot;platform&quot;:&quot;YeuMoney&quot;},{&quot;url&quot;:&quot;https://example.com/download/alchemist-site2s&quot;,&quot;platform&quot;:&quot;Site2s&quot;},{&quot;url&quot;:&quot;https://example.com/download/alchemist-fshare&quot;,&quot;platform&quot;:&quot;Fshare&quot;}]"
+        >
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+          </svg>
+          Tải xuống
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Book Content -->
+  <div class="detail-content">
+    <h1>Giới thiệu</h1>
+<p><strong>Chuyện Nhà Alchemist</strong> (The Alchemist) là một tiểu thuyết ngụ ngôn của nhà văn Brazil Paulo Coelho, xuất bản lần đầu năm 1988. Cuốn sách đã được dịch ra hơn 80 ngôn ngữ và bán được hơn 150 triệu bản trên toàn thế giới.</p>
+<h2>Tóm tắt nội dung</h2>
+<p>Câu chuyện kể về Santiago, một chàng chăn cừu trẻ người Tây Ban Nha, người có một giấc mơ lặp đi lặp lại về kho báu ẩn giấu gần Kim tự tháp Ai Cập.</p>
+<h3>Hành trình bắt đầu</h3>
+<p>Santiago quyết định bán đàn cừu và bắt đầu cuộc hành trình đến Ai Cập. Trên đường đi, anh gặp:</p>
+<ul>
+<li><strong>Vua Melchizedek</strong> - người dạy anh về &quot;Huyền thoại cá nhân&quot;</li>
+<li><strong>Nhà giả kim</strong> - người hướng dẫn anh hiểu về ngôn ngữ của vũ trụ</li>
+<li><strong>Fatima</strong> - tình yêu của đời anh</li>
+</ul>
+<h3>Bài học cuộc sống</h3>
+<blockquote>
+<p>&quot;Khi bạn muốn điều gì đó, cả vũ trụ sẽ hợp lực giúp bạn đạt được nó.&quot;</p>
+</blockquote>
+<p>Cuốn sách chứa đựng nhiều bài học sâu sắc về:</p>
+<ol>
+<li>Theo đuổi ước mơ</li>
+<li>Lắng nghe tiếng nói của trái tim</li>
+<li>Học hỏi từ thất bại</li>
+<li>Sống trong hiện tại</li>
+</ol>
+<h2>Đánh giá</h2>
+<p>Đây là một trong những cuốn sách bán chạy nhất mọi thời đại, được yêu thích bởi độc giả ở mọi lứa tuổi.</p>
+
+  </div>
+</div>
+
+<!-- Download Manager Script -->
+<script src="/js/download.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const downloadBtn = document.getElementById('download-btn');
+    if (downloadBtn && window.DownloadManager) {
+      const linksData = downloadBtn.getAttribute('data-download-links');
+      try {
+        const links = JSON.parse(linksData);
+        const downloadManager = new DownloadManager();
+        downloadManager.init(links);
+      } catch (e) {
+        console.error('Failed to initialize download manager:', e);
+      }
+    }
+  });
+</script>
+
+  </main>
+  
+  <footer class="border-t border-light-border dark:border-dark-border py-6">
+    <div class="container mx-auto px-4 text-center text-light-secondary dark:text-dark-secondary">
+      <p>&copy; SSGEpub - Static Site Generator cho Sách/Truyện</p>
+    </div>
+  </footer>
+  
+  <!-- JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/search.js"></script>
+  <script src="/js/lazyload.js"></script>
+</body>
+</html>
